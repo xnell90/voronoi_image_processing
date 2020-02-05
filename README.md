@@ -1,1 +1,1 @@
-# Voronoi-Image-Processing
+# Voronoi Image Processing
