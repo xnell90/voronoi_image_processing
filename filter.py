@@ -26,7 +26,7 @@ class Cell:
 			round(new_b)
 		)
 
-def generate_voronoi_diagram(num_cells, image_name, distance = "euclidean"):
+def generate_voronoi_filter(num_cells, image_name, distance = "euclidean"):
 	old_img = Image.open(image_name)
 	img_x = old_img.size[0]
 	img_y = old_img.size[1]
