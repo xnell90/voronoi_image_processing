@@ -26,7 +26,7 @@ class Cell:
 			round(new_b)
 		)
 
-def generate_voronoi_filter(num_cells, image_name, distance = "euclidean"):
+def generate_filter(num_cells, image_name, distance = "euclidean"):
 	old_img = Image.open(image_name)
 	img_x = old_img.size[0]
 	img_y = old_img.size[1]
@@ -85,5 +85,6 @@ def generate_voronoi_filter(num_cells, image_name, distance = "euclidean"):
 
 	bar.finish()
 
-	new_img.save(distance + str(num_cells) + "Voronoi" + image_name)
+	new_img_name = input("Enter new image name: ")
+	new_img.save(new_img_name + ".jpg")
 	new_img.show()
