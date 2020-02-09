@@ -26,7 +26,7 @@ class Cell:
 			round(new_b)
 		)
 
-def generate_filter(num_cells, image_name, distance = "euclidean"):
+def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary = False):
 	old_img = Image.open(image_name)
 	img_x = old_img.size[0]
 	img_y = old_img.size[1]
@@ -34,6 +34,8 @@ def generate_filter(num_cells, image_name, distance = "euclidean"):
 
 	if distance == 'manhattan':
 		metric = lambda x, a, y, b: math.fabs(x - a) + math.fabs(y - b)
+	elif distance == 'max_norm':
+		metric = lambda x, a, y, b: max(math.fabs(x - a), math.fabs(y - b))
 	else:
 		metric = lambda x, a, y, b: math.hypot(x - a, y - b)
 
@@ -84,6 +86,9 @@ def generate_filter(num_cells, image_name, distance = "euclidean"):
 		bar.next()
 
 	bar.finish()
+
+	if add_boundary:
+		pass
 
 	new_img_name = input("Enter new image name: ")
 	new_img.save(new_img_name + ".jpg")
