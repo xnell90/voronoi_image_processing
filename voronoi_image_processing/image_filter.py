@@ -1,5 +1,5 @@
 from PIL import Image
-from progress.bar import Bar
+from tqdm import tqdm
 import random
 import math
 
@@ -40,20 +40,17 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 		metric = lambda x, a, y, b: math.hypot(x - a, y - b)
 
 	cells = []
-	bar = Bar("1) Generating cell locations ...", max = num_cells)
-	for _ in range(num_cells):
+
+	for _ in tqdm(range(num_cells), desc = "1)"):
 		cpx = random.randrange(img_x)
 		cpy = random.randrange(img_y)
 		cp  = (cpx, cpy)
 		cells.append(Cell(cp))
-		bar.next()
 
-	bar.finish()
+	ctr_pts   = [ cell.center_point for cell in cells ]
+	all_pts_x = [ (x, y) for x in range(img_x) for y in range(img_y) ]
 
-	ctr_pts = [ cell.center_point for cell in cells ]
-	all_pts = [ (x, y) for x in range(img_x) for y in range(img_y) ]
-	bar = Bar("2) Assigning pixels to a cell ..", max = len(all_pts))
-	for pt in all_pts:
+	for pt in tqdm(all_pts_x, desc = "2)"):
 		x, y  = pt[0], pt[1]
 		ctr_x = ctr_pts[0][0]
 		ctr_y = ctr_pts[0][1]
@@ -72,23 +69,25 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 
 		cells[min_j].neighbor_points.append(pt)
 		cells[min_j].update_cell_color(old_img.getpixel(pt))
-		bar.next()
 
-	bar.finish()
-
-	bar = Bar("3) Coloring the cells ..........", max = len(cells))
-	for cell in cells:
+	for cell in tqdm(cells, desc = "3)"):
 		color = cell.cell_color
 
 		for neighbor_point in cell.neighbor_points:
 			new_img.putpixel(neighbor_point, color)
 
-		bar.next()
-
-	bar.finish()
 
 	if add_boundary:
-		pass
+
+		for pt1, pt2 in tqdm(zip(all_pts_x, all_pts_x[1:]), total = len(all_pts_x[1:]), desc = "4)"):
+			if new_img.getpixel(pt1) != new_img.getpixel(pt2):
+				new_img.putpixel(pt1, (0 , 0, 0))
+
+		all_pts_y = [ (x, y) for y in range(img_y) for x in range(img_x) ]
+
+		for pt1, pt2 in tqdm(zip(all_pts_y, all_pts_y[1:]), total = len(all_pts_y[1:]), desc = "5)"):
+			if new_img.getpixel(pt1) != new_img.getpixel(pt2):
+				new_img.putpixel(pt1, (0 , 0, 0))
 
 	new_img_name = input("Enter new image name: ")
 	new_img.save(new_img_name + ".jpg")
