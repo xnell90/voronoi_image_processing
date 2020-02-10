@@ -81,6 +81,7 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 
 		row_pair_pixels = zip(all_pts_x, all_pts_x[1:])
 		row_params = {'total': len(all_pts_x[1:]), 'desc': "4)"}
+
 		for pt1, pt2 in tqdm(row_pair_pixels, **row_params):
 			if new_img.getpixel(pt1) != new_img.getpixel(pt2):
 				new_img.putpixel(pt1, (0 , 0, 0))
@@ -89,6 +90,7 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 
 		col_pair_pixels = zip(all_pts_y, all_pts_y[1:])
 		col_params = {'total': len(all_pts_y[1:]), 'desc': "5)"}
+		
 		for pt1, pt2 in tqdm(col_pair_pixels, **col_params):
 			if new_img.getpixel(pt1) != new_img.getpixel(pt2):
 				new_img.putpixel(pt1, (0 , 0, 0))
