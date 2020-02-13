@@ -84,16 +84,16 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 
 		for pt1, pt2 in tqdm(row_pair_pixels, **row_params):
 			if new_img.getpixel(pt1) != new_img.getpixel(pt2):
-				new_img.putpixel(pt1, (0 , 0, 0))
+				new_img.putpixel(pt1, (0, 0, 0))
 
 		all_pts_y = [ (x, y) for y in range(img_y) for x in range(img_x) ]
 
 		col_pair_pixels = zip(all_pts_y, all_pts_y[1:])
 		col_params = {'total': len(all_pts_y[1:]), 'desc': "5)"}
-		
+
 		for pt1, pt2 in tqdm(col_pair_pixels, **col_params):
 			if new_img.getpixel(pt1) != new_img.getpixel(pt2):
-				new_img.putpixel(pt1, (0 , 0, 0))
+				new_img.putpixel(pt1, (0, 0, 0))
 
 	new_img_name = input("Enter new image name: ")
 	new_img.save(new_img_name + ".jpg")
