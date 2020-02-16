@@ -1,30 +1,9 @@
+import math
+import random
+
+from .cell_types import *
 from PIL import Image
 from tqdm import tqdm
-import random
-import math
-
-class Cell:
-	def __init__(self, center_point):
-		self.center_point    = center_point
-		self.neighbor_points = []
-		self.cell_color 	 = (0, 0, 0)
-
-	def update_cell_color(self, color):
-		old_r = self.cell_color[0]
-		old_g = self.cell_color[1]
-		old_b = self.cell_color[2]
-
-		num_neighbors = len(self.neighbor_points)
-
-		new_r = (old_r * (num_neighbors - 1) + color[0]) / num_neighbors
-		new_g = (old_g * (num_neighbors - 1) + color[1]) / num_neighbors
-		new_b = (old_b * (num_neighbors - 1) + color[2]) / num_neighbors
-
-		self.cell_color = (
-			round(new_r),
-			round(new_g),
-			round(new_b)
-		)
 
 def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary = False):
 	old_img = Image.open(image_name)
@@ -45,7 +24,7 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 		cpx = random.randrange(img_x)
 		cpy = random.randrange(img_y)
 		cp  = (cpx, cpy)
-		cells.append(Cell(cp))
+		cells.append(StandardCell(cp))
 
 	ctr_pts   = [ cell.center_point for cell in cells ]
 	all_pts_x = [ (x, y) for x in range(img_x) for y in range(img_y) ]
@@ -75,7 +54,6 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 
 		for neighbor_point in cell.neighbor_points:
 			new_img.putpixel(neighbor_point, color)
-
 
 	if add_boundary:
 
