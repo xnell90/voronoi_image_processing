@@ -1,4 +1,5 @@
 class StandardCell:
+    
 	def __init__(self, center_point):
 		self.center_point    = center_point
 		self.neighbor_points = []
