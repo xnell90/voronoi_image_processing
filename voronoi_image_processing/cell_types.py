@@ -1,5 +1,5 @@
 class StandardCell:
-    
+
 	def __init__(self, center_point):
 		self.center_point    = center_point
 		self.neighbor_points = []
@@ -21,3 +21,19 @@ class StandardCell:
 			round(new_g),
 			round(new_b)
 		)
+
+class ColorCell:
+
+    def __init__(self, center_point, is_gray = False):
+        self.center_point     = center_point
+        self.neighbor_points  = []
+        self.cell_colors      = []
+        self.is_gray  = is_gray
+
+    def update_cell_color(self, color):
+        if self.is_gray:
+            gry_color = sum(color) // 3
+            new_color = ( gry_color, gry_color, gry_color)
+            self.cell_colors.append(new_color)
+        else:
+            self.cell_colors.append(color)
