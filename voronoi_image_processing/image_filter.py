@@ -15,8 +15,11 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 		metric = lambda x, a, y, b: math.fabs(x - a) + math.fabs(y - b)
 	elif distance == 'max_norm':
 		metric = lambda x, a, y, b: max(math.fabs(x - a), math.fabs(y - b))
-	else:
+	elif distance == 'euclidean':
 		metric = lambda x, a, y, b: math.hypot(x - a, y - b)
+	else:
+		print("Error: distance function does not exist...")
+		return
 
 	cells = []
 
