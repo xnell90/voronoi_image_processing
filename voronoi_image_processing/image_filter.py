@@ -96,7 +96,6 @@ def generate_filter(num_cells, image_name, distance = "euclidean", add_boundary 
 			if __is_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
 				new_img.putpixel(pt1, (0, 0, 0))
 
-
 		all_pts_y = [ (x, y) for y in range(img_y) for x in range(img_x) ]
 
 		col_pair_pixels = zip(all_pts_y, all_pts_y[1:])
