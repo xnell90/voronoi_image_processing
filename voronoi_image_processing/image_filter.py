@@ -1,13 +1,12 @@
 import math
 import random
 
-from .cell_types import *
 from PIL import Image
 from tqdm import tqdm
+from voronoi_image_processing.cell_types import *
 
 def __is_boundary(p1, p2, alternate = False):
-	if not alternate:
-		return p1 != p2
+	if not alternate: return p1 != p2
 
 	r1, g1, b1 = p1[0], p1[1], p1[2]
 	r2, g2, b2 = p2[0], p2[1], p2[2]
@@ -17,7 +16,7 @@ def __is_boundary(p1, p2, alternate = False):
 
 	return (is_p1_gray and not is_p2_gray) or (not is_p1_gray and is_p2_gray)
 
-def generate_filter(image_name, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate = False):
+def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate = False):
 	old_img = Image.open(image_name)
 	img_x = old_img.size[0]
 	img_y = old_img.size[1]
@@ -47,8 +46,8 @@ def generate_filter(image_name, num_cells = 3000, distance = "euclidean", add_bo
 		else:
 			cells.append(StandardCell(cp))
 
-	ctr_pts   = [ cell.center_point for cell in cells ]
-	all_pts_x = [ (x, y) for x in range(img_x) for y in range(img_y) ]
+	ctr_pts   = [cell.center_point for cell in cells]
+	all_pts_x = [(x, y) for x in range(img_x) for y in range(img_y)]
 
 	for pt in tqdm(all_pts_x, desc = "2)"):
 		x, y  = pt[0], pt[1]
@@ -96,7 +95,7 @@ def generate_filter(image_name, num_cells = 3000, distance = "euclidean", add_bo
 			if __is_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
 				new_img.putpixel(pt1, (0, 0, 0))
 
-		all_pts_y = [ (x, y) for y in range(img_y) for x in range(img_x) ]
+		all_pts_y = [(x, y) for y in range(img_y) for x in range(img_x)]
 
 		col_pair_pixels = zip(all_pts_y, all_pts_y[1:])
 		col_params = {'total': len(all_pts_y[1:]), 'desc': "5)"}
