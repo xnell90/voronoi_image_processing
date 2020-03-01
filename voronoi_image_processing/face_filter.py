@@ -6,9 +6,10 @@ import random
 
 from PIL import Image
 from tqdm import tqdm
+from voronoi_image_processing.boundary import *
 from voronoi_image_processing.cell_types import *
 
-def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", alternate = False):
+def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", add_boundary = False, alternate = False):
     old_img = Image.open(image_name)
     new_img = old_img.copy()
     faces, confidences = cv.detect_face(np.array(new_img))
@@ -40,14 +41,14 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", al
             else:
                 cells.append(StandardCell(cp))
 
-        ctr_pts = [ cell.center_point for cell in cells ]
-        facial_pts = [
+        ctr_pts = [cell.center_point for cell in cells]
+        facial_pts_x = [
             (x, y)
             for x in range(x_i, x_f)
             for y in range(y_i, y_f)
         ]
 
-        for pt in tqdm(facial_pts, desc = "2) Face " + str(ind + 1)):
+        for pt in tqdm(facial_pts_x, desc = "2) Face " + str(ind + 1)):
             x, y  = pt[0], pt[1]
             ctr_x = ctr_pts[0][0]
             ctr_y = ctr_pts[0][1]
@@ -80,6 +81,29 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", al
 
                 for neighbor_point in cell.neighbor_points:
                     new_img.putpixel(neighbor_point, color)
+
+        if add_boundary:
+            row_pair_pixels = zip(facial_pts_x, facial_pts_x[1:])
+            row_params = {'total': len(facial_pts_x[1:]), 'desc': "4) Face " + str(ind + 1)}
+
+            for pt1, pt2 in tqdm(row_pair_pixels, **row_params):
+                rgb_pt1 = new_img.getpixel(pt1)
+                rgb_pt2 = new_img.getpixel(pt2)
+
+                if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+                    new_img.putpixel(pt1, (0, 0, 0))
+
+            facial_pts_y = [(x, y) for y in range(y_i, y_f) for x in range(x_i, x_f)]
+
+            col_pair_pixels = zip(facial_pts_y, facial_pts_y[1:])
+            col_params = {'total': len(facial_pts_y[1:]), 'desc': "5) Face " + str(ind + 1)}
+
+            for pt1, pt2 in tqdm(col_pair_pixels, **col_params):
+                rgb_pt1 = new_img.getpixel(pt1)
+                rgb_pt2 = new_img.getpixel(pt2)
+
+                if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+                    new_img.putpixel(pt1, (0, 0, 0))
 
         cells = []
 

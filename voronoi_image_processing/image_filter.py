@@ -3,18 +3,8 @@ import random
 
 from PIL import Image
 from tqdm import tqdm
+from voronoi_image_processing.boundary import *
 from voronoi_image_processing.cell_types import *
-
-def __is_boundary(p1, p2, alternate = False):
-	if not alternate: return p1 != p2
-
-	r1, g1, b1 = p1[0], p1[1], p1[2]
-	r2, g2, b2 = p2[0], p2[1], p2[2]
-
-	is_p1_gray = (r1 == g1 and g1 == b1)
-	is_p2_gray = (r2 == g2 and g2 == b2)
-
-	return (is_p1_gray and not is_p2_gray) or (not is_p1_gray and is_p2_gray)
 
 def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate = False):
 	old_img = Image.open(image_name)
@@ -91,7 +81,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 			rgb_pt1 = new_img.getpixel(pt1)
 			rgb_pt2 = new_img.getpixel(pt2)
 
-			if __is_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+			if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
 				new_img.putpixel(pt1, (0, 0, 0))
 
 		all_pts_y = [(x, y) for y in range(img_y) for x in range(img_x)]
@@ -103,7 +93,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 			rgb_pt1 = new_img.getpixel(pt1)
 			rgb_pt2 = new_img.getpixel(pt2)
 
-			if __is_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+			if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
 				new_img.putpixel(pt1, (0, 0, 0))
 
 	new_img_name = input("Enter new image name: ")
