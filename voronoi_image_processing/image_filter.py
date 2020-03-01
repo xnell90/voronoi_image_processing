@@ -40,8 +40,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 		cp  = (cpx, cpy)
 
 		if alternate:
-			is_gray = (i % 2 == 0)
-			new_cell = ColorCell(cp, is_gray = is_gray)
+			new_cell = ColorCell(cp, is_gray = (i % 2 == 0))
 			cells.append(new_cell)
 		else:
 			cells.append(StandardCell(cp))
