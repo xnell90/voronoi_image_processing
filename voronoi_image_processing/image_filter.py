@@ -59,6 +59,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 		cells[min_j].update_cell_color(old_img.getpixel(pt))
 
 	if alternate:
+
 		for cell in tqdm(cells, desc = "3)"):
 			points = cell.neighbor_points
 			colors = cell.cell_colors
@@ -66,6 +67,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 			for neighbor_point, color in zip(points, colors):
 				new_img.putpixel(neighbor_point, color)
 	else:
+		
 		for cell in tqdm(cells, desc = "3)"):
 			color = cell.cell_color
 
