@@ -1,6 +1,5 @@
 import cvlib as cv
 import matplotlib.pyplot as plt
-import math
 import numpy as np
 import random
 
@@ -14,14 +13,9 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
     new_img = old_img.copy()
     faces, confidences = cv.detect_face(np.array(new_img))
 
-    if distance == 'manhattan':
-        metric = lambda x, a, y, b: math.fabs(x - a) + math.fabs(y - b)
-    elif distance == 'max_norm':
-        metric = lambda x, a, y, b: max(math.fabs(x - a), math.fabs(y - b))
-    elif distance == 'euclidean':
-        metric = lambda x, a, y, b: math.hypot(x - a, y - b)
-    else:
-        print("Error: distance function does not exist...")
+    metric = get_metric(distance)
+    if not metric:
+        print("Error: distance function does not exist for face filter ...")
         return
 
     cells = []

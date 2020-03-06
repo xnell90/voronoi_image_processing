@@ -1,4 +1,3 @@
-import math
 import random
 
 from PIL import Image
@@ -12,14 +11,9 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 	img_y = old_img.size[1]
 	new_img = Image.new("RGB", (img_x, img_y))
 
-	if distance == 'manhattan':
-		metric = lambda x, a, y, b: math.fabs(x - a) + math.fabs(y - b)
-	elif distance == 'max_norm':
-		metric = lambda x, a, y, b: max(math.fabs(x - a), math.fabs(y - b))
-	elif distance == 'euclidean':
-		metric = lambda x, a, y, b: math.hypot(x - a, y - b)
-	else:
-		print("Error: distance function does not exist...")
+	metric = get_metric(distance)
+	if not metric:
+		print("Error: distance function does not exist for image filter ...")
 		return
 
 	cells = []
