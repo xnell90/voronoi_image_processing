@@ -3,8 +3,8 @@ import random
 
 from PIL import Image
 from tqdm import tqdm
-from voronoi_image_processing.boundary import *
 from voronoi_image_processing.cell_types import *
+from voronoi_image_processing.miscellaneous import *
 
 def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate = False):
 	old_img = Image.open(image_name)
@@ -67,7 +67,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 			for neighbor_point, color in zip(points, colors):
 				new_img.putpixel(neighbor_point, color)
 	else:
-		
+
 		for cell in tqdm(cells, desc = "3)"):
 			color = cell.cell_color
 

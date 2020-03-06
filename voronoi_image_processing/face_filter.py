@@ -6,8 +6,8 @@ import random
 
 from PIL import Image
 from tqdm import tqdm
-from voronoi_image_processing.boundary import *
 from voronoi_image_processing.cell_types import *
+from voronoi_image_processing.miscellaneous import *
 
 def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", add_boundary = False, alternate = False):
     old_img = Image.open(image_name)
@@ -85,7 +85,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
                     new_img.putpixel(neighbor_point, color)
 
         if add_boundary:
-            
+
             row_pair_pixels = zip(facial_pts_x, facial_pts_x[1:])
             row_params = {'total': len(facial_pts_x[1:]), 'desc': "4) Face " + str(ind + 1)}
 
