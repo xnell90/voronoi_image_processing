@@ -18,12 +18,12 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
         print("Error: distance function does not exist for face filter ...")
         return
 
-    cells = []
-
     for ind, face in enumerate(faces):
         (x_i, y_i) = face[0], face[1]
         (x_f, y_f) = face[2], face[3]
 
+        cells = []
+        
         for i in tqdm(range(num_cells), desc = "1) Face " + str(ind + 1)):
             cpx = random.randrange(x_i, x_f)
             cpy = random.randrange(y_i, y_f)
@@ -101,8 +101,6 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
 
                 if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
                     new_img.putpixel(pt1, (0, 0, 0))
-
-        cells = []
 
     new_img_name = input("Enter new image name: ")
     new_img.save(new_img_name + ".jpg")
