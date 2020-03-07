@@ -3,6 +3,7 @@ import numpy as np
 import random
 
 from PIL import Image
+from sklearn.neighbors import NearestNeighbors
 from tqdm import tqdm
 from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
@@ -12,40 +13,24 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
     new_img = old_img.copy()
     faces, confidences = cv.detect_face(np.array(new_img))
 
-    metric = get_metric(distance)
-    if not metric:
-        print("Error: distance function does not exist for face filter ...")
-        return
-
     for ind, face in enumerate(faces):
         (x_i, y_i) = face[0], face[1]
         (x_f, y_f) = face[2], face[3]
 
         cells   = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate)
-        ctr_pts = [cell.center_point for cell in cells]
+        ctr_pts = np.array([list(cell.center_point) for cell in cells])
         facial_pts_x = [
             (x, y)
             for x in range(x_i, x_f)
             for y in range(y_i, y_f)
         ]
 
+        nn_model = NearestNeighbors(n_neighbors = 1, algorithm = 'auto', metric = distance)
+        nn_model.fit(ctr_pts)
+
         for pt in tqdm(facial_pts_x, desc = "1) Face " + str(ind + 1)):
-            x, y  = pt[0], pt[1]
-            ctr_x = ctr_pts[0][0]
-            ctr_y = ctr_pts[0][1]
-
-            min_d = metric(x, ctr_x, y, ctr_y)
-            min_j = 0
-
-            for i in range(1, num_cells):
-                ctr_x = ctr_pts[i][0]
-                ctr_y = ctr_pts[i][1]
-                d = metric(x, ctr_x, y, ctr_y)
-
-                if d < min_d:
-                    min_d = d
-                    min_j = i
-
+            distance, index = nn_model.kneighbors(np.array([list(pt)]))
+            min_j = int(index)
             cells[min_j].neighbor_points.append(pt)
             cells[min_j].update_cell_color(old_img.getpixel(pt))
 
@@ -80,7 +65,11 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
                 if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
                     new_img.putpixel(pt1, (0, 0, 0))
 
-            facial_pts_y = [(x, y) for y in range(y_i, y_f) for x in range(x_i, x_f)]
+            facial_pts_y = [
+                (x, y)
+                for y in range(y_i, y_f)
+                for x in range(x_i, x_f)
+            ]
 
             col_pair_pixels = zip(facial_pts_y, facial_pts_y[1:])
             col_params = {

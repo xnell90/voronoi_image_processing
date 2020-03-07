@@ -23,18 +23,6 @@ def get_cells(num_cells, range_x, range_y, alternate):
 
 	return cells
 
-def get_metric(distance):
-	if distance == 'manhattan':
-		metric = lambda x, a, y, b: math.fabs(x - a) + math.fabs(y - b)
-	elif distance == 'max_norm':
-		metric = lambda x, a, y, b: max(math.fabs(x - a), math.fabs(y - b))
-	elif distance == 'euclidean':
-		metric = lambda x, a, y, b: math.hypot(x - a, y - b)
-	else:
-		metric = False
-
-	return metric
-
 def forms_boundary(p1, p2, alternate = False):
 	if not alternate: return p1 != p2
 
