@@ -17,7 +17,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
         (x_i, y_i) = face[0], face[1]
         (x_f, y_f) = face[2], face[3]
 
-        cells = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate)
+        cells   = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate)
         ctr_pts = np.array([list(cell.center_point) for cell in cells])
         facial_pts_x = [
             (x, y)
@@ -25,15 +25,18 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
             for y in range(y_i, y_f)
         ]
 
-        params = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
+        params   = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
         nn_model = NearestNeighbors(**params)
         nn_model.fit(ctr_pts)
 
-        for pt in tqdm(facial_pts_x, desc = "1) Face " + str(ind + 1)):
-            _, index = nn_model.kneighbors(np.array([list(pt)]))
-            min_j = int(index)
-            cells[min_j].neighbor_points.append(pt)
-            cells[min_j].update_cell_color(old_img.getpixel(pt))
+        np_facial_pts_x = np.array([list(pt) for pt in facial_pts_x])
+        _, indices      = nn_model.kneighbors(np_facial_pts_x)
+        indices         = [int(index) for index in indices]
+
+        tqdm_params = {'desc': "1) Face " + str(ind + 1), 'total': len(indices)}
+        for pt, min_i in tqdm(zip(facial_pts_x, indices), **tqdm_params):
+            cells[min_i].neighbor_points.append(pt)
+            cells[min_i].update_cell_color(old_img.getpixel(pt))
 
         if alternate:
 
