@@ -16,23 +16,11 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 		print("Error: distance function does not exist for image filter ...")
 		return
 
-	cells = []
-
-	for i in tqdm(range(num_cells), desc = "1)"):
-		cpx = random.randrange(img_x)
-		cpy = random.randrange(img_y)
-		cp  = (cpx, cpy)
-
-		if alternate:
-			new_cell = ColorCell(cp, is_gray = (i % 2 == 0))
-			cells.append(new_cell)
-		else:
-			cells.append(StandardCell(cp))
-
+	cells     = get_cells(num_cells, img_x, img_y, alternate)
 	ctr_pts   = [cell.center_point for cell in cells]
 	all_pts_x = [(x, y) for x in range(img_x) for y in range(img_y)]
 
-	for pt in tqdm(all_pts_x, desc = "2)"):
+	for pt in tqdm(all_pts_x, desc = "1)"):
 		x, y  = pt[0], pt[1]
 		ctr_x = ctr_pts[0][0]
 		ctr_y = ctr_pts[0][1]
@@ -54,7 +42,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 
 	if alternate:
 
-		for cell in tqdm(cells, desc = "3)"):
+		for cell in tqdm(cells, desc = "2)"):
 			points = cell.neighbor_points
 			colors = cell.cell_colors
 
@@ -62,7 +50,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 				new_img.putpixel(neighbor_point, color)
 	else:
 
-		for cell in tqdm(cells, desc = "3)"):
+		for cell in tqdm(cells, desc = "2)"):
 			color = cell.cell_color
 
 			for neighbor_point in cell.neighbor_points:
@@ -71,7 +59,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 	if add_boundary:
 
 		row_pair_pixels = zip(all_pts_x, all_pts_x[1:])
-		row_params = {'total': len(all_pts_x[1:]), 'desc': "4)"}
+		row_params = {'total': len(all_pts_x[1:]), 'desc': "3)"}
 
 		for pt1, pt2 in tqdm(row_pair_pixels, **row_params):
 			rgb_pt1 = new_img.getpixel(pt1)
@@ -83,7 +71,7 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 		all_pts_y = [(x, y) for y in range(img_y) for x in range(img_x)]
 
 		col_pair_pixels = zip(all_pts_y, all_pts_y[1:])
-		col_params = {'total': len(all_pts_y[1:]), 'desc': "5)"}
+		col_params = {'total': len(all_pts_y[1:]), 'desc': "4)"}
 
 		for pt1, pt2 in tqdm(col_pair_pixels, **col_params):
 			rgb_pt1 = new_img.getpixel(pt1)

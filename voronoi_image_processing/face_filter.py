@@ -22,19 +22,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
         (x_i, y_i) = face[0], face[1]
         (x_f, y_f) = face[2], face[3]
 
-        cells = []
-        
-        for i in tqdm(range(num_cells), desc = "1) Face " + str(ind + 1)):
-            cpx = random.randrange(x_i, x_f)
-            cpy = random.randrange(y_i, y_f)
-            cp  = (cpx, cpy)
-
-            if alternate:
-                new_cell = ColorCell(cp, is_gray = (i % 2 == 0))
-                cells.append(new_cell)
-            else:
-                cells.append(StandardCell(cp))
-
+        cells   = get_cells(num_cells, *(x_i, x_f), *(y_i, y_f), alternate)
         ctr_pts = [cell.center_point for cell in cells]
         facial_pts_x = [
             (x, y)
@@ -42,7 +30,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
             for y in range(y_i, y_f)
         ]
 
-        for pt in tqdm(facial_pts_x, desc = "2) Face " + str(ind + 1)):
+        for pt in tqdm(facial_pts_x, desc = "1) Face " + str(ind + 1)):
             x, y  = pt[0], pt[1]
             ctr_x = ctr_pts[0][0]
             ctr_y = ctr_pts[0][1]
@@ -64,7 +52,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
 
         if alternate:
 
-            for cell in tqdm(cells, desc = "3) Face " + str(ind + 1)):
+            for cell in tqdm(cells, desc = "2) Face " + str(ind + 1)):
                 points = cell.neighbor_points
                 colors = cell.cell_colors
 
@@ -72,7 +60,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
                     new_img.putpixel(neighbor_point, color)
         else:
 
-            for cell in tqdm(cells, desc = "3) Face " + str(ind + 1)):
+            for cell in tqdm(cells, desc = "2) Face " + str(ind + 1)):
                 color = cell.cell_color
 
                 for neighbor_point in cell.neighbor_points:
@@ -81,7 +69,10 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
         if add_boundary:
 
             row_pair_pixels = zip(facial_pts_x, facial_pts_x[1:])
-            row_params = {'total': len(facial_pts_x[1:]), 'desc': "4) Face " + str(ind + 1)}
+            row_params = {
+                'total': len(facial_pts_x[1:]),
+                'desc': "3) Face " + str(ind + 1)
+            }
 
             for pt1, pt2 in tqdm(row_pair_pixels, **row_params):
                 rgb_pt1 = new_img.getpixel(pt1)
@@ -93,7 +84,10 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
             facial_pts_y = [(x, y) for y in range(y_i, y_f) for x in range(x_i, x_f)]
 
             col_pair_pixels = zip(facial_pts_y, facial_pts_y[1:])
-            col_params = {'total': len(facial_pts_y[1:]), 'desc': "5) Face " + str(ind + 1)}
+            col_params = {
+                'total': len(facial_pts_y[1:]),
+                'desc': "4) Face " + str(ind + 1)
+            }
 
             for pt1, pt2 in tqdm(col_pair_pixels, **col_params):
                 rgb_pt1 = new_img.getpixel(pt1)

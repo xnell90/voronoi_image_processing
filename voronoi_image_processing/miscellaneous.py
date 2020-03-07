@@ -1,4 +1,23 @@
 import math
+import random
+
+from voronoi_image_processing.cell_types import *
+
+def get_cells(num_cells, range_x, range_y, alternate):
+	cells = []
+
+	for i in range(num_cells):
+		cpx = random.randrange(range_x)
+		cpy = random.randrange(range_y)
+		cp  = (cpx, cpy)
+
+		if alternate:
+			new_cell = ColorCell(cp, is_gray = (i % 2 == 0))
+			cells.append(new_cell)
+		else:
+			cells.append(StandardCell(cp))
+
+	return cells
 
 def get_metric(distance):
 	if distance == 'manhattan':
