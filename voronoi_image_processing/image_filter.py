@@ -7,9 +7,9 @@ from voronoi_image_processing.miscellaneous import *
 
 def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate = False):
 	old_img = Image.open(image_name)
+	new_img = Image.new("RGB", old_img.size)
 	img_x = old_img.size[0]
 	img_y = old_img.size[1]
-	new_img = Image.new("RGB", (img_x, img_y))
 
 	metric = get_metric(distance)
 	if not metric:
