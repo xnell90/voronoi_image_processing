@@ -7,8 +7,12 @@ def get_cells(num_cells, range_x, range_y, alternate):
 	cells = []
 
 	for i in range(num_cells):
-		cpx = random.randrange(range_x)
-		cpy = random.randrange(range_y)
+		if (type(range_x) is tuple): cpx = random.randrange(*range_x)
+		else: cpx = random.randrange(range_x)
+
+		if (type(range_y) is tuple): cpy = random.randrange(*range_y)
+		else: cpy = random.randrange(range_y)
+
 		cp  = (cpx, cpy)
 
 		if alternate:

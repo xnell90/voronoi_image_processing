@@ -21,7 +21,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
         (x_i, y_i) = face[0], face[1]
         (x_f, y_f) = face[2], face[3]
 
-        cells   = get_cells(num_cells, *(x_i, x_f), *(y_i, y_f), alternate)
+        cells   = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate)
         ctr_pts = [cell.center_point for cell in cells]
         facial_pts_x = [
             (x, y)
