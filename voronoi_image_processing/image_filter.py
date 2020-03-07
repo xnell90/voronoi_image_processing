@@ -13,15 +13,16 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 	img_x = old_img.size[0]
 	img_y = old_img.size[1]
 
-	cells   = get_cells(num_cells, img_x, img_y, alternate)
+	cells = get_cells(num_cells, img_x, img_y, alternate)
 	ctr_pts = np.array([list(cell.center_point) for cell in cells])
 	all_pts_x = [(x, y) for x in range(img_x) for y in range(img_y)]
 
-	nn_model = NearestNeighbors(n_neighbors = 1, algorithm = 'auto', metric = distance)
+	params = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
+	nn_model = NearestNeighbors(**params)
 	nn_model.fit(ctr_pts)
 
 	for pt in tqdm(all_pts_x, desc = "1)"):
-		distance, index = nn_model.kneighbors(np.array([list(pt)]))
+		_, index = nn_model.kneighbors(np.array([list(pt)]))
 		min_j = int(index)
 		cells[min_j].neighbor_points.append(pt)
 		cells[min_j].update_cell_color(old_img.getpixel(pt))
