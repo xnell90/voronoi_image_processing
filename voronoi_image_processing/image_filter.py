@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import time
 
 from PIL import Image
 from sklearn.neighbors import NearestNeighbors
@@ -21,9 +22,15 @@ def generate_image_filter(image_name, num_cells = 3000, distance = "euclidean", 
 	nn_model = NearestNeighbors(**params)
 	nn_model.fit(ctr_pts)
 
+	start_time = time.time()
+
 	np_all_pts_x = np.array([list(pt) for pt in all_pts_x])
 	_, indices = nn_model.kneighbors(np_all_pts_x)
 	indices = [int(index) for index in indices]
+
+	end_time = time.time()
+	duration = round(end_time - start_time, 2)
+	print("0) Ran Nearest Neighbor Algorithm For %s secs " % duration)
 
 	tqdm_params = {
 		'desc': "1) Assigning Points To A Cell ",
