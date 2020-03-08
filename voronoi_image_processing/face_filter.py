@@ -17,7 +17,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
         (x_i, y_i) = face[0], face[1]
         (x_f, y_f) = face[2], face[3]
 
-        cells   = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate)
+        cells = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate)
         ctr_pts = np.array([list(cell.center_point) for cell in cells])
         facial_pts_x = [
             (x, y)
@@ -25,30 +25,38 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
             for y in range(y_i, y_f)
         ]
 
-        params   = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
+        params = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
         nn_model = NearestNeighbors(**params)
         nn_model.fit(ctr_pts)
 
         np_facial_pts_x = np.array([list(pt) for pt in facial_pts_x])
-        _, indices      = nn_model.kneighbors(np_facial_pts_x)
-        indices         = [int(index) for index in indices]
+        _, indices = nn_model.kneighbors(np_facial_pts_x)
+        indices = [int(index) for index in indices]
 
-        tqdm_params = {'desc': "1) Face " + str(ind + 1), 'total': len(indices)}
+        face_num = str(ind + 1)
+        tqdm_params = {
+            'desc': "1) Assigning Points To A Cell For Face " + face_num,
+            'total': len(indices)
+        }
         for pt, min_i in tqdm(zip(facial_pts_x, indices), **tqdm_params):
             cells[min_i].neighbor_points.append(pt)
             cells[min_i].update_cell_color(old_img.getpixel(pt))
 
         if alternate:
-
-            for cell in tqdm(cells, desc = "2) Face " + str(ind + 1)):
+            loading_message = (
+                "2) Creating A New Filtered Image For Face " + face_num
+            )
+            for cell in tqdm(cells, desc = loading_message):
                 points = cell.neighbor_points
                 colors = cell.cell_colors
 
                 for neighbor_point, color in zip(points, colors):
                     new_img.putpixel(neighbor_point, color)
         else:
-
-            for cell in tqdm(cells, desc = "2) Face " + str(ind + 1)):
+            loading_message = (
+                "2) Creating A New Filtered Image For Face " + face_num
+            )
+            for cell in tqdm(cells, desc = loading_message):
                 color = cell.cell_color
 
                 for neighbor_point in cell.neighbor_points:
@@ -59,7 +67,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
             row_pair_pixels = zip(facial_pts_x, facial_pts_x[1:])
             row_params = {
                 'total': len(facial_pts_x[1:]),
-                'desc': "3) Face " + str(ind + 1)
+                'desc': "3) Drawing Boundaries (Part 1) For Face " + face_num
             }
 
             for pt1, pt2 in tqdm(row_pair_pixels, **row_params):
@@ -78,7 +86,7 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
             col_pair_pixels = zip(facial_pts_y, facial_pts_y[1:])
             col_params = {
                 'total': len(facial_pts_y[1:]),
-                'desc': "4) Face " + str(ind + 1)
+                'desc': "3) Drawing Boundaries (Part 2) For Face " + face_num
             }
 
             for pt1, pt2 in tqdm(col_pair_pixels, **col_params):
