@@ -9,8 +9,8 @@ from tqdm import tqdm
 from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
 
-def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", add_boundary = False, alternate = False):
-    old_img = Image.open(image_name)
+def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_boundary = False, alternate = False):
+    old_img = Image.open(image)
     new_img = old_img.copy()
     faces, confidences = cv.detect_face(np.array(new_img))
 
@@ -38,7 +38,6 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
 
         end_time = time.time()
         duration = round(end_time - start_time, 2)
-        print("0) Ran Nearest Neighbor Algorithm For %s secs " % duration)
 
         face_num = str(ind + 1)
         tqdm_params = {
@@ -102,6 +101,8 @@ def generate_face_filter(image_name, num_cells = 800, distance = "euclidean", ad
 
                 if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
                     new_img.putpixel(pt1, (0, 0, 0))
+
+        print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs on Face %s " % (duration, face_num))
 
     new_img_name = input("Enter new image name: ")
     new_img.save(new_img_name + ".jpg")
