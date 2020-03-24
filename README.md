@@ -28,7 +28,7 @@ image = 'MonaLisa.jpg'
 
 #num_cells = number of voronoi cells
 #distance  = distance function used to find nearest cell location
-#add_boundary = boolean that determines if a cell has a boundary 
+#add_boundary = boolean that determines if a cell has a boundary
 #alternate    = boolean that determines if every cell is colored or black and white.
 params = {'num_cells': 3000, 'distance': 'euclidean', 'add_boundary': True, 'alternate': False}
 generate_image_filter(image, **params)
@@ -39,8 +39,7 @@ generate_image_filter(image, **params)
     3) Drawing Boundaries (Part 1) : 100%|██████████| 2145599/2145599 [00:07<00:00, 276321.77it/s]
     3) Drawing Boundaries (Part 2) : 100%|██████████| 2145599/2145599 [00:06<00:00, 318701.75it/s]
 
-
-    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 7.3 secs 
+    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 7.3 secs
     Enter new image name: NewImageMonaLisa
 
 
@@ -63,8 +62,7 @@ generate_face_filter(image, **params)
     1) Assigning Points To A Cell For Face 1: 100%|██████████| 113960/113960 [00:00<00:00, 196238.36it/s]
     2) Creating A New Filtered Image For Face 1: 100%|██████████| 500/500 [00:00<00:00, 3232.19it/s]
 
-
-    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 0.24 secs on Face 1 
+    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 0.24 secs on Face 1
     Enter new image name: NewFaceMonaLisa
 
 
@@ -76,4 +74,3 @@ display(test_image)
 
 
 ![jpeg](output_6_0.jpeg)
-
