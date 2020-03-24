@@ -26,6 +26,10 @@ display(test_image)
 #image is either the name of the iamge or the location of the image.
 image = 'MonaLisa.jpg'
 
+#num_cells = number of voronoi cells
+#distance  = distance function used to find nearest cell location
+#add_boundary = boolean that determines if a cell has a boundary 
+#alternate    = boolean that determines if every cell is colored or black and white.
 params = {'num_cells': 3000, 'distance': 'euclidean', 'add_boundary': True, 'alternate': False}
 generate_image_filter(image, **params)
 ```
