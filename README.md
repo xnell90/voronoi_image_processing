@@ -36,9 +36,7 @@ generate_image_filter(image, **params)
     3) Drawing Boundaries (Part 1) : 100%|██████████| 2145599/2145599 [00:06<00:00, 352065.07it/s]
     3) Drawing Boundaries (Part 2) : 100%|██████████| 2145599/2145599 [00:05<00:00, 360622.10it/s]
 
-
     0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 8.37 secs 
-
 
     Enter new image name:  NewImageMonaLisa
 
@@ -62,9 +60,7 @@ generate_face_filter(image, **params)
     1) Assigning Points To A Cell For Face 1: 100%|██████████| 113960/113960 [00:00<00:00, 246373.91it/s]
     2) Creating A New Filtered Image For Face 1: 100%|██████████| 500/500 [00:00<00:00, 3298.65it/s]
 
-
     0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 0.24 secs on Face 1 
-
 
     Enter new image name:  NewFaceMonaLisa
 
