@@ -9,7 +9,7 @@ from tqdm import tqdm
 from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
 
-def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_boundary = False, alternate = False):
+def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_boundary = False, alternate_cell_color = False):
     old_img = Image.open(image)
     new_img = old_img.copy()
     faces, confidences = cv.detect_face(np.array(new_img))
@@ -18,7 +18,7 @@ def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_bou
         (x_i, y_i) = face[0], face[1]
         (x_f, y_f) = face[2], face[3]
 
-        cells = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate)
+        cells = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate_cell_color)
         ctr_pts = np.array([list(cell.center_point) for cell in cells])
         facial_pts_x = [
             (x, y)
@@ -48,7 +48,7 @@ def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_bou
             cells[min_i].neighbor_points.append(pt)
             cells[min_i].update_cell_color(old_img.getpixel(pt))
 
-        if alternate:
+        if alternate_cell_color:
             loading_message = (
                 "2) Creating A New Filtered Image For Face %s" % face_num
             )
@@ -80,7 +80,7 @@ def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_bou
                 rgb_pt1 = new_img.getpixel(pt1)
                 rgb_pt2 = new_img.getpixel(pt2)
 
-                if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+                if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
                     new_img.putpixel(pt1, (0, 0, 0))
 
             facial_pts_y = [
@@ -99,7 +99,7 @@ def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_bou
                 rgb_pt1 = new_img.getpixel(pt1)
                 rgb_pt2 = new_img.getpixel(pt2)
 
-                if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+                if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
                     new_img.putpixel(pt1, (0, 0, 0))
 
         print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs on Face %s " % (duration, face_num))

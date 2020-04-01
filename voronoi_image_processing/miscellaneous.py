@@ -3,7 +3,7 @@ import random
 
 from voronoi_image_processing.cell_types import *
 
-def get_cells(num_cells, range_x, range_y, alternate):
+def get_cells(num_cells, range_x, range_y, alternate_cell_color):
 	cells = []
 
 	for i in range(num_cells):
@@ -15,7 +15,7 @@ def get_cells(num_cells, range_x, range_y, alternate):
 
 		cp  = (cpx, cpy)
 
-		if alternate:
+		if alternate_cell_color:
 			new_cell = ColorCell(cp, is_gray = (i % 2 == 0))
 			cells.append(new_cell)
 		else:
@@ -23,8 +23,8 @@ def get_cells(num_cells, range_x, range_y, alternate):
 
 	return cells
 
-def forms_boundary(p1, p2, alternate = False):
-	if not alternate: return p1 != p2
+def forms_boundary(p1, p2, alternate_cell_color = False):
+	if not alternate_cell_color: return p1 != p2
 
 	r1, g1, b1 = p1[0], p1[1], p1[2]
 	r2, g2, b2 = p2[0], p2[1], p2[2]

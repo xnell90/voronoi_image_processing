@@ -8,13 +8,13 @@ from tqdm import tqdm
 from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
 
-def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate = False):
+def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate_cell_color = False):
 	old_img = Image.open(image)
 	new_img = Image.new("RGB", old_img.size)
 	img_x   = old_img.size[0]
 	img_y   = old_img.size[1]
 
-	cells = get_cells(num_cells, img_x, img_y, alternate)
+	cells = get_cells(num_cells, img_x, img_y, alternate_cell_color)
 	ctr_pts = np.array([list(cell.center_point) for cell in cells])
 	all_pts_x = [(x, y) for x in range(img_x) for y in range(img_y)]
 
@@ -39,7 +39,7 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 		cells[min_i].neighbor_points.append(pt)
 		cells[min_i].update_cell_color(old_img.getpixel(pt))
 
-	if alternate:
+	if alternate_cell_color:
 
 		for cell in tqdm(cells, desc = "2) Creating A New Filtered Image "):
 			points = cell.neighbor_points
@@ -67,7 +67,7 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 			rgb_pt1 = new_img.getpixel(pt1)
 			rgb_pt2 = new_img.getpixel(pt2)
 
-			if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
 				new_img.putpixel(pt1, (0, 0, 0))
 
 		all_pts_y = [(x, y) for y in range(img_y) for x in range(img_x)]
@@ -82,7 +82,7 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 			rgb_pt1 = new_img.getpixel(pt1)
 			rgb_pt2 = new_img.getpixel(pt2)
 
-			if forms_boundary(rgb_pt1, rgb_pt2, alternate = alternate):
+			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
 				new_img.putpixel(pt1, (0, 0, 0))
 
 		print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs " % duration)
