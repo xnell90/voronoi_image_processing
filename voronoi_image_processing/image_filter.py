@@ -85,7 +85,7 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
 				new_img.putpixel(pt1, (0, 0, 0))
 
-		print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs " % duration)
+	print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs " % duration)
 
 	new_img_name = input("Enter new image name: ")
 	new_img.save(new_img_name + ".jpg")
