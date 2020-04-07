@@ -16,7 +16,7 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 
 	cells = get_cells(num_cells, img_x, img_y, alternate_cell_color)
 	ctr_pts = np.array([list(cell.center_point) for cell in cells])
-	all_pts_x = [(x, y) for x in range(img_x) for y in range(img_y)]
+	all_pts_x = [[x, y] for x in range(img_x) for y in range(img_y)]
 
 	params = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
 	nn_model = NearestNeighbors(**params)
@@ -24,7 +24,7 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 
 	start_time = time.time()
 
-	np_all_pts_x = np.array([list(pt) for pt in all_pts_x])
+	np_all_pts_x = np.array(all_pts_x)
 	_, indices = nn_model.kneighbors(np_all_pts_x)
 	indices = [int(index) for index in indices]
 
@@ -36,8 +36,8 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 		'total': len(indices)
 	}
 	for pt, min_i in tqdm(zip(all_pts_x, indices), **tqdm_params):
-		cells[min_i].neighbor_points.append(pt)
-		cells[min_i].update_cell_color(old_img.getpixel(pt))
+		cells[min_i].neighbor_points.append(tuple(pt))
+		cells[min_i].update_cell_color(old_img.getpixel(tuple(pt)))
 
 	if alternate_cell_color:
 
@@ -64,13 +64,13 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 		}
 
 		for pt1, pt2 in tqdm(row_pair_pixels, **row_params):
-			rgb_pt1 = new_img.getpixel(pt1)
-			rgb_pt2 = new_img.getpixel(pt2)
+			rgb_pt1 = new_img.getpixel(tuple(pt1))
+			rgb_pt2 = new_img.getpixel(tuple(pt2))
 
 			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
-				new_img.putpixel(pt1, (0, 0, 0))
+				new_img.putpixel(tuple(pt1), (0, 0, 0))
 
-		all_pts_y = [(x, y) for y in range(img_y) for x in range(img_x)]
+		all_pts_y = [[x, y] for y in range(img_y) for x in range(img_x)]
 
 		col_pair_pixels = zip(all_pts_y, all_pts_y[1:])
 		col_params = {
@@ -79,11 +79,11 @@ def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_b
 		}
 
 		for pt1, pt2 in tqdm(col_pair_pixels, **col_params):
-			rgb_pt1 = new_img.getpixel(pt1)
-			rgb_pt2 = new_img.getpixel(pt2)
+			rgb_pt1 = new_img.getpixel(tuple(pt1))
+			rgb_pt2 = new_img.getpixel(tuple(pt2))
 
 			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
-				new_img.putpixel(pt1, (0, 0, 0))
+				new_img.putpixel(tuple(pt1), (0, 0, 0))
 
 	print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs " % duration)
 
