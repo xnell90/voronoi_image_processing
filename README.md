@@ -20,7 +20,7 @@ display(test_image)
 
 
 ```python
-#image is either the name of the iamge or the location of the image.
+#image is either the name of the iamge or the full path location of the image.
 image = 'MonaLisa.jpeg'
 
 #num_cells = number of voronoi cells
