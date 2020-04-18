@@ -10,40 +10,43 @@ A simple python package that allows users to create filtered images using Vorono
 from IPython.display import Image as IPImage
 from voronoi_image_processing import *
 
-test_image = IPImage(filename = 'MonaLisa.jpeg')
+test_image = IPImage(filename = 'mona_lisa.jpeg')
 display(test_image)
 ```
 
+    Using TensorFlow backend.
 
-![jpeg](output_2_0.jpeg)
+
+
+![jpeg](output_2_1.jpeg)
 
 
 
 ```python
-#image is either the name of the iamge or the full path location of the image.
-image = 'MonaLisa.jpeg'
+#image is either the name of the iamge or the location of the image.
+image = 'mona_lisa.jpeg'
 
 #num_cells = number of voronoi cells
 #distance  = distance function used to find nearest cell location
-#add_boundary = boolean that determines if a cell has a boundary
+#add_boundary = boolean that determines if a cell has a boundary 
 #alternate_cell_color = boolean that determines if every cell is colored or black and white.
+#display_new_image = boolean that determines if you want to display the new image after processing
 params = {'num_cells': 3000, 'distance': 'euclidean', 'add_boundary': True, 'alternate_cell_color': False}
 generate_filtered_image(image, **params)
 ```
 
-    1) Assigning Points To A Cell : 100%|██████████| 2145600/2145600 [00:09<00:00, 218477.61it/s]
-    2) Creating A New Filtered Image : 100%|██████████| 3000/3000 [00:02<00:00, 1067.84it/s]
-    3) Drawing Boundaries (Part 1) : 100%|██████████| 2145599/2145599 [00:06<00:00, 352065.07it/s]
-    3) Drawing Boundaries (Part 2) : 100%|██████████| 2145599/2145599 [00:05<00:00, 360622.10it/s]
+    1) Assigning Points To A Cell : 100%|██████████| 2145600/2145600 [00:09<00:00, 217918.72it/s]
+    2) Creating A New Filtered Image : 100%|██████████| 3000/3000 [00:02<00:00, 1045.47it/s]
+    3) Drawing Boundaries (Part 1) : 100%|██████████| 2145599/2145599 [00:06<00:00, 337110.53it/s]
+    3) Drawing Boundaries (Part 2) : 100%|██████████| 2145599/2145599 [00:06<00:00, 332579.03it/s]
 
-    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 8.37 secs
 
-    Enter new image name:  NewImageMonaLisa
+    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 4.37 secs 
 
 
 
 ```python
-test_image = IPImage(filename = 'NewImageMonaLisa.jpg')
+test_image = IPImage(filename = 'mona_lisa_filtered.jpeg')
 display(test_image)
 ```
 
@@ -57,19 +60,19 @@ params = {'num_cells': 500, 'distance': 'euclidean', 'add_boundary': False, 'alt
 generate_filtered_faces(image, **params)
 ```
 
-    1) Assigning Points To A Cell For Face 1: 100%|██████████| 113960/113960 [00:00<00:00, 246373.91it/s]
-    2) Creating A New Filtered Image For Face 1: 100%|██████████| 500/500 [00:00<00:00, 3298.65it/s]
+    1) Assigning Points To A Cell For Face 1: 100%|██████████| 113960/113960 [00:00<00:00, 234856.67it/s]
+    2) Creating A New Filtered Image For Face 1: 100%|██████████| 500/500 [00:00<00:00, 3207.51it/s]
 
-    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 0.24 secs on Face 1
 
-    Enter new image name:  NewFaceMonaLisa
+    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 0.23 secs on Face 1 
 
 
 
 ```python
-test_image = IPImage(filename = 'NewFaceMonaLisa.jpg')
+test_image = IPImage(filename = 'mona_lisa_filtered.jpeg')
 display(test_image)
 ```
 
 
 ![jpeg](output_6_0.jpeg)
+
