@@ -28,7 +28,7 @@ image = 'MonaLisa.jpeg'
 #add_boundary = boolean that determines if a cell has a boundary
 #alternate_cell_color = boolean that determines if every cell is colored or black and white.
 params = {'num_cells': 3000, 'distance': 'euclidean', 'add_boundary': True, 'alternate_cell_color': False}
-generate_image_filter(image, **params)
+generate_filtered_image(image, **params)
 ```
 
     1) Assigning Points To A Cell : 100%|██████████| 2145600/2145600 [00:09<00:00, 218477.61it/s]
@@ -54,7 +54,7 @@ display(test_image)
 
 ```python
 params = {'num_cells': 500, 'distance': 'euclidean', 'add_boundary': False, 'alternate_cell_color': False}
-generate_face_filter(image, **params)
+generate_filtered_faces(image, **params)
 ```
 
     1) Assigning Points To A Cell For Face 1: 100%|██████████| 113960/113960 [00:00<00:00, 246373.91it/s]

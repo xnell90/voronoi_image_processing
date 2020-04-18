@@ -9,7 +9,7 @@ from tqdm import tqdm
 from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
 
-def generate_face_filter(image, num_cells = 800, distance = "euclidean", add_boundary = False, alternate_cell_color = False):
+def generate_filtered_faces(image, num_cells = 800, distance = "euclidean", add_boundary = False, alternate_cell_color = False):
     old_img = Image.open(image)
     new_img = old_img.copy()
     faces, confidences = cv.detect_face(np.array(new_img))

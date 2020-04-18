@@ -8,7 +8,7 @@ from tqdm import tqdm
 from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
 
-def generate_image_filter(image, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate_cell_color = False):
+def generate_filtered_image(image, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate_cell_color = False):
 	old_img = Image.open(image)
 	new_img = Image.new("RGB", old_img.size)
 	img_x   = old_img.size[0]
