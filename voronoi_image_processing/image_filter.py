@@ -8,7 +8,7 @@ from tqdm import tqdm
 from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
 
-def generate_filtered_image(image, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate_cell_color = False):
+def generate_filtered_image(image, num_cells = 3000, distance = "euclidean", add_boundary = False, alternate_cell_color = False, display_new_image = True):
 	old_img = Image.open(image)
 	new_img = Image.new("RGB", old_img.size)
 	img_x   = old_img.size[0]
@@ -87,6 +87,8 @@ def generate_filtered_image(image, num_cells = 3000, distance = "euclidean", add
 
 	print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs " % duration)
 
-	new_img_name = input("Enter new image name: ")
-	new_img.save(new_img_name + ".jpg")
-	new_img.show()
+	file = image.split(".")
+	file_name, file_type = file[0], file[1]
+	new_img.save(file_name + "_filtered." + file_type)
+	
+	if display_new_image: new_img.show()
