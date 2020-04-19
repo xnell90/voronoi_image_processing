@@ -26,22 +26,29 @@ display(test_image)
 #image is either the name of the iamge or the location of the image.
 image = 'mona_lisa.jpeg'
 
-#num_cells = number of voronoi cells
-#distance  = distance function used to find nearest cell location
-#add_boundary = boolean that determines if a cell has a boundary 
-#alternate_cell_color = boolean that determines if every cell is colored or black and white.
-#display_new_image = boolean that determines if you want to display the new image after processing
-params = {'num_cells': 3000, 'distance': 'euclidean', 'add_boundary': True, 'alternate_cell_color': False}
-generate_filtered_image(image, **params)
+#Before running the function, makes sure it passes in a dicitonary with the following keys:
+# num_cells = number of voronoi cells
+# distance  = distance function used to find nearest cell location (see sklearn's distance functions)
+# add_boundary = boolean that determines if a cell has a boundary 
+# alternate_cell_color = boolean that determines if every cell is colored or black and white.
+# display_new_image = boolean that determines if you want to display the new image after processing
+settings = {
+    'num_cells': 3000, 
+    'distance': 'euclidean', 
+    'add_boundary': True, 
+    'alternate_cell_color': False,
+    'display_new_image': True
+}
+generate_filtered_image(image, settings)
 ```
 
-    1) Assigning Points To A Cell : 100%|██████████| 2145600/2145600 [00:09<00:00, 217918.72it/s]
-    2) Creating A New Filtered Image : 100%|██████████| 3000/3000 [00:02<00:00, 1045.47it/s]
-    3) Drawing Boundaries (Part 1) : 100%|██████████| 2145599/2145599 [00:06<00:00, 337110.53it/s]
-    3) Drawing Boundaries (Part 2) : 100%|██████████| 2145599/2145599 [00:06<00:00, 332579.03it/s]
+    1) Assigning Points To A Cell : 100%|██████████| 2145600/2145600 [00:10<00:00, 196023.15it/s]
+    2) Creating A New Filtered Image : 100%|██████████| 3000/3000 [00:03<00:00, 868.89it/s] 
+    3) Drawing Boundaries (Part 1) : 100%|██████████| 2145599/2145599 [00:07<00:00, 294257.40it/s]
+    3) Drawing Boundaries (Part 2) : 100%|██████████| 2145599/2145599 [00:07<00:00, 298935.74it/s]
 
 
-    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 4.37 secs 
+    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 4.34 secs 
 
 
 
@@ -56,15 +63,21 @@ display(test_image)
 
 
 ```python
-params = {'num_cells': 500, 'distance': 'euclidean', 'add_boundary': False, 'alternate_cell_color': False}
-generate_filtered_faces(image, **params)
+settings = {
+    'num_cells': 500, 
+    'distance': 'euclidean', 
+    'add_boundary': False, 
+    'alternate_cell_color': False, 
+    'display_new_image': True
+}
+generate_filtered_faces(image, settings)
 ```
 
-    1) Assigning Points To A Cell For Face 1: 100%|██████████| 113960/113960 [00:00<00:00, 234856.67it/s]
-    2) Creating A New Filtered Image For Face 1: 100%|██████████| 500/500 [00:00<00:00, 3207.51it/s]
+    1) Assigning Points To A Cell For Face 1: 100%|██████████| 113960/113960 [00:00<00:00, 211050.75it/s]
+    2) Creating A New Filtered Image For Face 1: 100%|██████████| 500/500 [00:00<00:00, 2978.53it/s]
 
 
-    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 0.23 secs on Face 1 
+    0) Prior to Step 1, Ran Nearest Neighbor Algorithm For 0.24 secs on Face 1 
 
 
 
@@ -76,3 +89,8 @@ display(test_image)
 
 ![jpeg](output_6_0.jpeg)
 
+
+
+```python
+
+```
