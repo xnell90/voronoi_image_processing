@@ -20,7 +20,7 @@ def generate_filtered_image(image, settings = DEFAULT_IMAGE_FILTER_SETTINGS):
 	num_cells, distance  = settings['num_cells'], settings['distance']
 	alternate_cell_color = settings['alternate_cell_color']
 	add_boundary  = settings['add_boundary']
-	
+
 	display_new_image = settings['display_new_image']
 
 	old_img = Image.open(image)
@@ -81,7 +81,7 @@ def generate_filtered_image(image, settings = DEFAULT_IMAGE_FILTER_SETTINGS):
 			rgb_pt1 = new_img.getpixel(tuple(pt1))
 			rgb_pt2 = new_img.getpixel(tuple(pt2))
 
-			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
+			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color):
 				new_img.putpixel(tuple(pt1), (0, 0, 0))
 
 		all_pts_y = [[x, y] for y in range(img_y) for x in range(img_x)]
@@ -96,7 +96,7 @@ def generate_filtered_image(image, settings = DEFAULT_IMAGE_FILTER_SETTINGS):
 			rgb_pt1 = new_img.getpixel(tuple(pt1))
 			rgb_pt2 = new_img.getpixel(tuple(pt2))
 
-			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
+			if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color):
 				new_img.putpixel(tuple(pt1), (0, 0, 0))
 
 	print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs " % duration)

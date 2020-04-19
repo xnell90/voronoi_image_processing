@@ -94,7 +94,7 @@ def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
                 rgb_pt1 = new_img.getpixel(pt1)
                 rgb_pt2 = new_img.getpixel(pt2)
 
-                if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
+                if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color):
                     new_img.putpixel(pt1, (0, 0, 0))
 
             facial_pts_y = [
@@ -113,7 +113,7 @@ def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
                 rgb_pt1 = new_img.getpixel(pt1)
                 rgb_pt2 = new_img.getpixel(pt2)
 
-                if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color = alternate_cell_color):
+                if forms_boundary(rgb_pt1, rgb_pt2, alternate_cell_color):
                     new_img.putpixel(pt1, (0, 0, 0))
 
         print("0) Prior to Step 1, Ran Nearest Neighbor Algorithm For %s secs on Face %s " % (duration, face_num))
