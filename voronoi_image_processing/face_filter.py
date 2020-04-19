@@ -1,5 +1,6 @@
 import cvlib as cv
 import numpy as np
+import os
 import random
 import time
 
@@ -10,7 +11,7 @@ from voronoi_image_processing.cell_types import *
 from voronoi_image_processing.miscellaneous import *
 
 DEFAULT_FACE_FILTER_SETTINGS = {
-    'num_cells': 3000,
+    'num_cells': 800,
     'distance': 'euclidean',
     'add_boundary': False,
     'alternate_cell_color': False,
@@ -29,8 +30,8 @@ def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
     faces, confidences = cv.detect_face(np.array(new_img))
 
     for ind, face in enumerate(faces):
-        (x_i, y_i) = face[0], face[1]
-        (x_f, y_f) = face[2], face[3]
+        (x_i, y_i) = min(face[0], old_img.size[0]), min(face[1], old_img.size[1])
+        (x_f, y_f) = min(face[2], old_img.size[0]), min(face[3], old_img.size[1])
 
         cells = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate_cell_color)
         ctr_pts = np.array([list(cell.center_point) for cell in cells])
@@ -123,3 +124,10 @@ def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
     new_img.save(file_name + "_filtered." + file_type)
 
     if display_new_image: new_img.show()
+
+def generate_filtered_faces_directory(image_directory, settings = DEFAULT_FACE_FILTER_SETTINGS):
+	image_list = os.listdir(image_directory)
+	num_images = len(image_list)
+	for i, image in enumerate(image_list):
+		print("Processing %s, %d / %d" % (image, i + 1, num_images))
+		generate_filtered_faces(image_directory + image, settings)
