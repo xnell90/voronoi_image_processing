@@ -7,8 +7,8 @@ import time
 from PIL import Image
 from sklearn.neighbors import NearestNeighbors
 from tqdm import tqdm
-from voronoi_image_processing.cell_types import *
-from voronoi_image_processing.miscellaneous import *
+from .cell_types import *
+from .miscellaneous import *
 
 DEFAULT_FACE_FILTER_SETTINGS = {
     'num_cells': 800,
@@ -21,9 +21,9 @@ DEFAULT_FACE_FILTER_SETTINGS = {
 def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
     num_cells, distance  = settings['num_cells'], settings['distance']
     alternate_cell_color = settings['alternate_cell_color']
-    add_boundary = settings['add_boundary']
+    add_boundary         = settings['add_boundary']
 
-    display_new_image = settings['display_new_image']
+    display_new_image    = settings['display_new_image']
 
     old_img = Image.open(image)
     new_img = old_img.copy()
@@ -33,7 +33,7 @@ def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
         (x_i, y_i) = min(face[0], old_img.size[0]), min(face[1], old_img.size[1])
         (x_f, y_f) = min(face[2], old_img.size[0]), min(face[3], old_img.size[1])
 
-        cells = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate_cell_color)
+        cells   = get_cells(num_cells, (x_i, x_f), (y_i, y_f), alternate_cell_color)
         ctr_pts = np.array([list(cell.center_point) for cell in cells])
         facial_pts_x = [
             (x, y)

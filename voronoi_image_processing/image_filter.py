@@ -6,8 +6,8 @@ import time
 from PIL import Image
 from sklearn.neighbors import NearestNeighbors
 from tqdm import tqdm
-from voronoi_image_processing.cell_types import *
-from voronoi_image_processing.miscellaneous import *
+from .cell_types import *
+from .miscellaneous import *
 
 DEFAULT_IMAGE_FILTER_SETTINGS = {
 	'num_cells': 3000,
@@ -20,20 +20,20 @@ DEFAULT_IMAGE_FILTER_SETTINGS = {
 def generate_filtered_image(image, settings = DEFAULT_IMAGE_FILTER_SETTINGS):
 	num_cells, distance  = settings['num_cells'], settings['distance']
 	alternate_cell_color = settings['alternate_cell_color']
-	add_boundary  = settings['add_boundary']
+	add_boundary         = settings['add_boundary']
 
-	display_new_image = settings['display_new_image']
+	display_new_image    = settings['display_new_image']
 
 	old_img = Image.open(image)
 	new_img = Image.new("RGB", old_img.size)
 	img_x   = old_img.size[0]
 	img_y   = old_img.size[1]
 
-	cells = get_cells(num_cells, img_x, img_y, alternate_cell_color)
+	cells   = get_cells(num_cells, img_x, img_y, alternate_cell_color)
 	ctr_pts = np.array([list(cell.center_point) for cell in cells])
 	all_pts_x = [[x, y] for x in range(img_x) for y in range(img_y)]
 
-	params = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
+	params   = {'n_neighbors': 1, 'algorithm': 'auto', 'metric': distance}
 	nn_model = NearestNeighbors(**params)
 	nn_model.fit(ctr_pts)
 
