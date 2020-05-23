@@ -29,7 +29,7 @@ class ColorCell:
     def update_cell_color(self, color):
         if self.is_gray:
             gry_color = sum(color) // 3
-            new_color = ( gry_color, gry_color, gry_color)
+            new_color = (gry_color, gry_color, gry_color)
             self.cell_colors.append(new_color)
         else:
             self.cell_colors.append(color)
