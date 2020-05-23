@@ -3,7 +3,7 @@ class StandardCell:
 	def __init__(self, center_point):
 		self.center_point    = center_point
 		self.neighbor_points = []
-		self.cell_color 	 = (0, 0, 0)
+		self.cell_color      = (0, 0, 0)
 
 	def update_cell_color(self, color):
 		old_r = self.cell_color[0]

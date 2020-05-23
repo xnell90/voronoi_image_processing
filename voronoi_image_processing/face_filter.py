@@ -21,9 +21,9 @@ DEFAULT_FACE_FILTER_SETTINGS = {
 def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
     num_cells, distance  = settings['num_cells'], settings['distance']
     alternate_cell_color = settings['alternate_cell_color']
-    add_boundary = settings['add_boundary']
+    add_boundary         = settings['add_boundary']
 
-    display_new_image = settings['display_new_image']
+    display_new_image    = settings['display_new_image']
 
     old_img = Image.open(image)
     new_img = old_img.copy()
