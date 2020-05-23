@@ -16,11 +16,7 @@ class StandardCell:
 		new_g = (old_g * (num_neighbors - 1) + color[1]) / num_neighbors
 		new_b = (old_b * (num_neighbors - 1) + color[2]) / num_neighbors
 
-		self.cell_color = (
-			round(new_r),
-			round(new_g),
-			round(new_b)
-		)
+		self.cell_color = (round(new_r), round(new_g), round(new_b))
 
 class ColorCell:
 
