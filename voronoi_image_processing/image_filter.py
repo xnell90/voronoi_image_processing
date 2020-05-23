@@ -20,14 +20,15 @@ DEFAULT_IMAGE_FILTER_SETTINGS = {
 def generate_filtered_image(image, settings = DEFAULT_IMAGE_FILTER_SETTINGS):
 	num_cells, distance  = settings['num_cells'], settings['distance']
 	alternate_cell_color = settings['alternate_cell_color']
-	add_boundary         = settings['add_boundary']
+	add_boundary = settings['add_boundary']
 
-	display_new_image    = settings['display_new_image']
+	display_new_image = settings['display_new_image']
 
 	old_img = Image.open(image)
 	new_img = Image.new("RGB", old_img.size)
-	img_x   = old_img.size[0]
-	img_y   = old_img.size[1]
+
+	img_x = old_img.size[0]
+	img_y = old_img.size[1]
 
 	cells   = get_cells(num_cells, img_x, img_y, alternate_cell_color)
 	ctr_pts = np.array([list(cell.center_point) for cell in cells])
