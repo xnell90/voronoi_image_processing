@@ -25,9 +25,9 @@ class StandardCell:
 class ColorCell:
 
     def __init__(self, center_point, is_gray = False):
-        self.center_point     = center_point
-        self.neighbor_points  = []
-        self.cell_colors      = []
+        self.center_point    = center_point
+        self.neighbor_points = []
+        self.cell_colors     = []
         self.is_gray  = is_gray
 
     def update_cell_color(self, color):
