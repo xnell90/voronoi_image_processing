@@ -1,7 +1,7 @@
 import math
 import random
 
-from voronoi_image_processing.cell_types import *
+from .cell_types import *
 
 def get_cells(num_cells, range_x, range_y, alternate_cell_color):
 	cells = []
