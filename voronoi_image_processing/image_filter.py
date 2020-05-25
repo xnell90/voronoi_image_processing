@@ -112,6 +112,7 @@ def generate_filtered_image(image, settings = DEFAULT_IMAGE_FILTER_SETTINGS):
 def generate_filtered_image_directory(image_directory, settings = DEFAULT_IMAGE_FILTER_SETTINGS):
 	image_list = os.listdir(image_directory)
 	num_images = len(image_list)
+
 	for i, image in enumerate(image_list):
 		print("Processing %s, %d / %d" % (image, i + 1, num_images))
 		generate_filtered_image(image_directory + image, settings)
