@@ -18,7 +18,7 @@ DEFAULT_FACE_FILTER_SETTINGS = {
     'display_new_image': True
 }
 
-def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
+def generate_filtered_faces(image, settings=DEFAULT_FACE_FILTER_SETTINGS):
     distance  = settings['distance']
     num_cells = settings['num_cells']
     add_boundary = settings['add_boundary']
@@ -126,7 +126,7 @@ def generate_filtered_faces(image, settings = DEFAULT_FACE_FILTER_SETTINGS):
 
     if display_new_image: new_img.show()
 
-def generate_filtered_faces_directory(image_directory, settings = DEFAULT_FACE_FILTER_SETTINGS):
+def generate_filtered_faces_directory(image_directory, settings=DEFAULT_FACE_FILTER_SETTINGS):
     image_list = os.listdir(image_directory)
     num_images = len(image_list)
 
