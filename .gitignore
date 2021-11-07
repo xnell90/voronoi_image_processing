@@ -1,7 +1,7 @@
 *.ipynb
 *./ipynb_checkpoints/
+*.jpeg
+*.DS_Store
 __pycache__/
 voronoi_image_processing/.ipynb_checkpoints/
-*.jpeg
 README-checkpoint.md
-*.DS_Store
